@@ -48,7 +48,7 @@ function playGame() {
     }
 }
 
-playGame();
+//playGame();
 
 // console.log("I chose: " + getComputerChoice());
 // console.log("You chose: " + getHumanChoice());
