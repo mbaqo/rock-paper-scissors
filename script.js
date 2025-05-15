@@ -19,36 +19,57 @@ function getHumanChoice() {
 }
 
 function getScore() {
-    return `Your score: ${humanScore} | My score: ${computerScore}`;
+    return `Your score: ${humanScore} - My score: ${computerScore}`;
 }
 
 function playRound(humanChoice, computerChoice) {
-    humanChoice = humanChoice.toUpperCase();
-    console.log(`You chose ${humanChoice} and I chose ${computerChoice}`);
+    const choiceDisplay = document.querySelector("#results-choice");
 
+    humanChoice = humanChoice.toUpperCase();
     if (humanChoice === computerChoice) {
-        console.log("It's a tie!");
+        choiceDisplay.textContent = ("It's a tie!");
     }
     else if ((humanChoice === "ROCK" && computerChoice === "SCISSORS") || (humanChoice === "PAPER" && computerChoice === "ROCK") || (humanChoice === "SCISSORS" && computerChoice === "PAPER")) {
-        console.log(`You win! ${humanChoice} beats ${computerChoice}.`);
+        choiceDisplay.textContent = (`You win! ${humanChoice} beats ${computerChoice}.`);
         humanScore++;
     } else {
-        console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
+        choiceDisplay.textContent = (`You lose! ${computerChoice} beats ${humanChoice}`);
         computerScore++;
     }
 }
 
 function playGame() {
-    for (let i = 0; i < 5; i++) {
-        const humanChoice = getHumanChoice();
-        const computerChoice = getComputerChoice();
-        playRound(humanChoice, computerChoice);
-        console.log(getScore());
-        console.log("");
-    }
+    const buttons = document.querySelectorAll(".choice-btn");
+    buttons.forEach((btn) => btn.addEventListener("click", (e) => {
+        playRound(btn.textContent, getComputerChoice());
+        document.querySelector("#results-score").textContent = (getScore());
+        setTimeout(() => {
+            if (checkWinner()) {
+                displayWinner();
+            }
+        }, 0);
+    }));
 }
 
-//playGame();
+function checkWinner() {
+    if (humanScore === 5) {
+        return "You Won!";
+    }
+    if (computerScore === 5) {
+        return "I Won!";
+    }
+    return "";
+}
+
+function displayWinner() {
+    alert(checkWinner());
+    humanScore = 0;
+    computerScore = 0;
+}
+
+// document.querySelectorAll()
+
+playGame();
 
 // console.log("I chose: " + getComputerChoice());
 // console.log("You chose: " + getHumanChoice());
